@@ -1,0 +1,30 @@
+IMPORT EXCEL TO Trans1_May "D:\Users\HP\Documents\ACL Data\Sample Data Files\Class 02\Trans1_May.fil" FROM "D:\Users\HP\Documents\ACL Data\Sample Data Files\Class 02\Trans_May.xls" TABLE "Trans1_May$" KEEPTITLE ALLFIELDS
+IMPORT EXCEL TO Trans2_May "D:\Users\HP\Documents\ACL Data\Sample Data Files\Class 02\Trans2_May.fil" FROM "D:\Users\HP\Documents\ACL Data\Sample Data Files\Class 02\Trans_May.xls" TABLE "Trans2_May$" KEEPTITLE ALLFIELDS
+OPEN Trans1_May
+DELETE FIELD CODES OK 
+DEFINE FIELD CODES UNICODE 39 8 WIDTH 11  
+DELETE FIELD AMOUNT OK 
+DEFINE FIELD AMOUNT PRINT 287 18 2 WIDTH 9  
+COMMENT Changing datetype properties 
+
+DELETE FIELD DATE OK 
+DEFINE FIELD DATE DATETIME 47 20 PICTURE "YYYY-MM-DD" 
+
+OPEN Trans2_May
+DELETE FIELD CODES OK 
+DEFINE FIELD CODES UNICODE 39 8 WIDTH 11  
+DELETE FIELD AMOUNT OK 
+DEFINE FIELD AMOUNT PRINT 407 18 2 WIDTH 9  
+OPEN Trans2_May
+IMPORT EXCEL TO Trans_April "D:\Users\HP\Documents\ACL Data\Sample Data Files\Class 02\Trans_April.fil" FROM "D:\Users\HP\Documents\ACL Data\Sample Data Files\Class 02\Trans_April.XLS" TABLE "Trans_Apr$" KEEPTITLE FIELD "CARDNUM" C WID 16 AS "" FIELD "AMOUNT" N WID 6 DEC 2 AS "" FIELD "DATE" D WID 10 PIC "YYYY-MM-DD" AS "" FIELD "CODES" C WID 4 AS "" FIELD "CUSTNO" C WID 6 AS "" FIELD "DESCRIPTION" C WID 50 AS ""
+
+OPEN Trans_April
+
+COMMENT Append the tables
+APPEND Trans_April Trans1_May Trans2_May TO "Trans_All" OPEN
+
+SUMMARIZE ON CODES SUBTOTAL AMOUNT OTHER DESCRIPTION TO "hhh" open PRESORT ISOLOCALE root
+
+
+
+
